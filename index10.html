@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<title>WordMaster Kahoot</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+<nav>
+<ul>
+<li class="logo">WordMaster</li>
+<li><button onclick="openPage('home')">🏠 Home</button></li>
+<li><button onclick="showOverlay('scoreOverlay')">⭐ Ballar</button></li>
+<li><button onclick="showOverlay('statOverlay')">📊 Statistika</button></li>
+<li><button onclick="showOverlay('aboutOverlay')">ℹ️ Dastur haqida</button></li>
+</ul>
+</nav>
+</header>
+
+<main>
+<section id="home" class="page">
+<h2>Ingliz tilini o‘rganishni boshlaymiz 🚀</h2>
+
+<!-- Ortadagi boshlash tugmasi -->
+<div class="startCenter">
+<button onclick="showDifficultyOptions()">Boshlash</button>
+</div>
+
+<!-- Difficulty Options -->
+<div id="difficultyOptions" class="difficulty hidden">
+<button onclick="startDifficulty('easy')">Easy</button>
+<button onclick="startDifficulty('medium')">Medium</button>
+<button onclick="startDifficulty('hard')">Hard</button>
+<div id="tick-difficulty" class="tick hidden">✔</div>
+</div>
+
+<h3>📂 Bo‘limlar</h3>
+<div class="categories">
+  <div class="category">
+    <h4>Hayvonlar</h4>
+    <div id="tick-hayvonlar" class="tick hidden">✔</div>
+  </div>
+  <div class="category">
+    <h4>Sonlar</h4>
+    <div id="tick-sonlar" class="tick hidden">✔</div>
+  </div>
+  <div class="category">
+    <h4>Kasblar</h4>
+    <div id="tick-kasblar" class="tick hidden">✔</div>
+  </div>
+</div>
+</section>
+</main>
+
+<!-- QUIZ FULLSCREEN -->
+<div id="quizOverlay" class="overlay hidden">
+  <div class="quizContainer fullscreen kahoot largeModal">
+    <div class="quizHeader">
+      <h2 id="levelTitle">Bo‘lim</h2>
+      <span class="close" onclick="exitQuiz()">&times;</span>
+    </div>
+    <div class="progressBar">
+      <div id="progress"></div>
+    </div>
+    <div class="quizContent">
+      <h3 id="uzWord">So‘z</h3>
+      <div id="answers"></div>
+    </div>
+  </div>
+</div>
+
+<!-- BALLAR OYNA -->
+<div id="scoreOverlay" class="overlay hidden">
+<div class="quizContainer aboutOverlaySize largeModal">
+<div class="quizHeader">
+<h2>⭐ Ballaring</h2>
+<span class="close" onclick="closeOverlay('scoreOverlay')">&times;</span>
+</div>
+<div class="quizContent">
+<h1 id="score">0</h1>
+</div>
+</div>
+</div>
+
+<!-- STATISTIKA OYNA -->
+<div id="statOverlay" class="overlay hidden">
+<div class="quizContainer aboutOverlaySize largeModal">
+<div class="quizHeader">
+<h2>📊 Statistika</h2>
+<span class="close" onclick="closeOverlay('statOverlay')">&times;</span>
+</div>
+<div class="quizContent">
+<p>Ishlangan savollar: <b id="done">0</b></p>
+<p>Xatolar: <b id="wrong">0</b></p>
+<p>Urinishlar: <b id="tries">0</b></p>
+</div>
+</div>
+</div>
+
+<!-- DASTUR HAQIDA OYNA -->
+<div id="aboutOverlay" class="overlay hidden">
+<div class="quizContainer aboutOverlaySize largeModal">
+<div class="quizHeader">
+<h2>ℹ️ Dastur haqida</h2>
+<span class="close" onclick="closeOverlay('aboutOverlay')">&times;</span>
+</div>
+<div class="quizContent">
+<p>Bu dastur ingliz tilini o‘rganish uchun yaratildi.</p>
+<p>Yaratgan: John Doe</p>
+<p>Yoshi: 17 yosh</p>
+<p>Maqsad: Til o‘rganishni qiziqarli qilish va bilimni oshirish.</p>
+</div>
+</div>
+</div>
+
+<script src="java.js"></script>
+</body>
+</html>

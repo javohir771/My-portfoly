@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<title>Javohir Portfolio | Minecraft FPS</title>
+<style>
+html,body{margin:0;padding:0;overflow:hidden;font-family:Arial;background:#0b0f1a;}
+#nav{position:fixed;top:0;width:100%;height:55px;background:rgba(0,0,0,0.6);color:#00ffcc;display:flex;align-items:center;padding-left:20px;box-shadow:0 0 20px #00ffcc;z-index:10;}
+#hud{position:fixed;top:70px;left:20px;color:white;z-index:10;}
+#crosshair{position:fixed;left:50%;top:50%;width:14px;height:14px;border:2px solid #00ffcc;transform:translate(-50%,-50%);pointer-events:none;z-index:9;transition:0.1s;}
+#start{position:fixed;inset:0;background:radial-gradient(circle,#0f2027,#000);display:flex;align-items:center;justify-content:center;z-index:20;}
+#start button{padding:20px 50px;font-size:24px;background:#00ffcc;border:none;cursor:pointer;box-shadow:0 0 40px #00ffcc;}
+#gameover{position:fixed;inset:0;background:rgba(0,0,0,0.9);display:flex;align-items:center;justify-content:center;flex-direction:column;color:white;font-size:36px;z-index:30;display:none;}
+#gameover button{margin-top:20px;padding:15px 40px;font-size:24px;background:#00ffcc;border:none;cursor:pointer;box-shadow:0 0 20px #00ffcc;}
+</style>
+</head>
+<body>
+
+<div id="nav">3D Minecraft FPS | Javohir Portfolio</div>
+<div id="hud">❤️ HP: <span id="hp">100</span> 🎯 SCORE: <span id="score">0</span></div>
+<div id="crosshair"></div>
+<div id="start"><button onclick="startGame()">BOSHLASH</button></div>
+<div id="game"></div>
+<div id="gameover"><div>GAME OVER</div><button onclick="restartGame()">RESTART</button></div>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
+<script>
+let scene,camera,renderer;
+let hand,gun;
+let keys={},score=0,hp=100;
+let enemies=[];
+let speed=0.08,recoil=0;
+let gameRunning=false;
+let mapSize=20;
+
+function startGame(){
+  document.getElementById("start").style.display="none";
+  document.getElementById("gameover").style.display="none";
+  hp=100;score=0;
+  document.getElementById("hp").textContent=hp;
+  document.getElementById("score").textContent=score;
+  gameRunning=true;
+  document.body.requestPointerLock();
+  initScene();
+  animate();
+}
+
+function restartGame(){
+  enemies.forEach(e=>scene.remove(e));
+  enemies=[];
+  startGame();
+}
+
+function initScene(){
+  scene=new THREE.Scene();
+  scene.background=new THREE.Color(0x87ceeb);
+
+  camera=new THREE.PerspectiveCamera(75,innerWidth/innerHeight,0.1,1000);
+  camera.position.set(mapSize/2,1.6,mapSize/2);
+
+  renderer=new THREE.WebGLRenderer({antialias:true});
+  renderer.setSize(innerWidth,innerHeight);
+  document.getElementById("game").appendChild(renderer.domElement);
+
+  // LIGHT
+  const light=new THREE.DirectionalLight(0xffffff,1);
+  light.position.set(5,10,5);
+  scene.add(light);
+  scene.add(new THREE.AmbientLight(0x404040));
+
+  // MAP BLOCKS
+  for(let i=0;i<mapSize;i++){
+    for(let j=0;j<mapSize;j++){
+      const color=Math.random()>0.5?0x228B22:0x8B4513;
+      const block=new THREE.Mesh(new THREE.BoxGeometry(1,1,1),new THREE.MeshStandardMaterial({color:color}));
+      block.position.set(i,0,j);
+      scene.add(block);
+    }
+  }
+
+  // HAND + PICHoq
+  hand=new THREE.Mesh(new THREE.BoxGeometry(0.2,0.2,0.4),new THREE.MeshStandardMaterial({color:0xffcba4}));
+  hand.position.set(0.35,-0.35,-0.5);camera.add(hand);
+  gun=new THREE.Mesh(new THREE.BoxGeometry(0.05,0.05,0.5),new THREE.MeshStandardMaterial({color:0x555}));
+  gun.position.set(0.4,-0.4,-0.8);camera.add(gun);
+  scene.add(camera);
+
+  spawnEnemies(5);
+}
+
+/* ===== ENEMY SPAWN ===== */
+function spawnEnemies(n){
+  for(let i=0;i<n;i++){
+    const e=new THREE.Group();
+    const body=new THREE.Mesh(new THREE.BoxGeometry(0.6,1.8,0.4),new THREE.MeshStandardMaterial({color:0xff0000}));
+    const head=new THREE.Mesh(new THREE.BoxGeometry(0.6,0.6,0.6),new THREE.MeshStandardMaterial({color:0xffaaaa}));
+    head.position.y=1.5;
+    e.add(body);e.add(head);
+    e.position.set(Math.random()*mapSize,0.9,Math.random()*-mapSize);
+    e.health=100;
+    enemies.push(e);
+    scene.add(e);
+  }
+}
+
+/* ===== INPUT ===== */
+window.addEventListener("keydown",e=>keys[e.key.toLowerCase()]=true);
+window.addEventListener("keyup",e=>keys[e.key.toLowerCase()]=false);
+window.addEventListener("mousemove",e=>{
+  camera.rotation.y-=e.movementX*0.002;
+  camera.rotation.x-=e.movementY*0.002;
+  camera.rotation.x=Math.max(-Math.PI/2,Math.min(Math.PI/2,camera.rotation.x));
+});
+window.addEventListener("mousedown",shoot);
+
+/* ===== SHOOT ===== */
+function shoot(){
+  recoil=0.2;
+  const ray=new THREE.Raycaster();
+  ray.setFromCamera({x:0,y:0},camera);
+  const hits=ray.intersectObjects(enemies,true);
+  if(hits.length){
+    const enemy=hits[0].object.parent;
+    const headshot=hits[0].point.y>enemy.position.y+1;
+    enemy.health-= headshot?50:25;
+    enemy.children[0].material.color.set(headshot?"yellow":"orange");
+    createBulletEffect(hits[0].point);
+    if(enemy.health<=0){
+      scene.remove(enemy);
+      enemies.splice(enemies.indexOf(enemy),1);
+      score+= headshot?200:100;
+      document.getElementById("score").textContent=score;
+    }
+  }
+}
+
+/* ===== BULLET EFFECT ===== */
+function createBulletEffect(pos){
+  const geometry=new THREE.SphereGeometry(0.05,8,8);
+  const material=new THREE.MeshBasicMaterial({color:0xffffff});
+  const s=new THREE.Mesh(geometry,material);
+  s.position.copy(pos);
+  scene.add(s);
+  setTimeout(()=>scene.remove(s),300);
+}
+
+/* ===== ANIMATE ===== */
+function animate(){
+  if(!gameRunning) return;
+  requestAnimationFrame(animate);
+
+  // MOVE
+  const dir=new THREE.Vector3();
+  if(keys["w"])dir.z-=1;
+  if(keys["s"])dir.z+=1;
+  if(keys["a"])dir.x-=1;
+  if(keys["d"])dir.x+=1;
+  dir.applyEuler(camera.rotation);
+  dir.y=0;
+  camera.position.add(dir.multiplyScalar(speed));
+
+  // HAND & GUN ANIMATION
+  hand.position.y=-0.35+Math.sin(Date.now()*0.01)*0.02;
+  gun.position.y=-0.4+Math.sin(Date.now()*0.01)*0.02;
+  gun.rotation.x-=recoil;
+  recoil*=0.8;
+
+  // CROSSHAIR SIZE
+  const c=document.getElementById("crosshair");
+  if(keys["w"]||keys["a"]||keys["s"]||keys["d"]){c.style.width="24px";c.style.height="24px";}
+  else{c.style.width="14px";c.style.height="14px";}
+
+  // ENEMY MOVE + DAMAGE
+  if(enemies.length===0) spawnEnemies(5); 
+  enemies.forEach(e=>{
+    e.lookAt(camera.position.x,e.position.y,camera.position.z);
+    const dir=new THREE.Vector3().subVectors(camera.position,e.position).normalize();
+    e.position.add(dir.multiplyScalar(0.02));
+    if(e.position.distanceTo(camera.position)<1.5){
+      hp-=0.3;
+      document.getElementById("hp").textContent=Math.max(0,Math.floor(hp));
+      if(hp<=0) {
+        gameRunning=false;
+        document.getElementById("gameover").style.display="flex";
+        document.getElementById("start").style.display="block";
+      }
+    }
+  });
+
+  renderer.render(scene,camera);
+}
+</script>
+</body>
+</html>

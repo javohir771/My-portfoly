@@ -1,0 +1,34 @@
+body{font-family:'Segoe UI',sans-serif;margin:0;background:linear-gradient(135deg,#00c6ff,#0072ff);color:white;text-align:center;}
+header nav ul{display:flex;list-style:none;margin:0;padding:0;background:rgba(0,0,0,0.7);align-items:center;}
+header nav ul li{margin:0 10px;}
+header nav ul li.logo{font-size:22px;font-weight:bold;padding:10px 15px;}
+header nav ul li button{padding:8px 20px;border-radius:25px;border:none;cursor:pointer;background:linear-gradient(to right,#00e676,#00c6ff);color:white;font-weight:bold;transition:0.3s;box-shadow:0 5px 15px rgba(0,0,0,0.4);}
+header nav ul li button:hover{transform:scale(1.1);box-shadow:0 0 25px rgba(0,0,0,0.6);}
+.langBtn{padding:8px 15px;margin:0 3px;border-radius:20px;border:none;font-weight:bold;cursor:pointer;background:linear-gradient(to right,#0072ff,#00c6ff);color:white;box-shadow:0 3px 10px rgba(0,0,0,0.4);transition:0.3s;}
+.langBtn:hover{transform:scale(1.1);box-shadow:0 0 20px rgba(0,0,0,0.6);}
+.startCenter{display:flex;justify-content:center;margin:40px 0;}
+.startCenter button{padding:25px 50px;font-size:28px;border-radius:25px;background:linear-gradient(to right,#00e676,#00c6ff);border:none;color:white;box-shadow:0 5px 15px rgba(0,0,0,0.4);cursor:pointer;transition:0.3s;}
+.startCenter button:hover{transform:scale(1.05);}
+.difficulty{margin:20px 0;}
+.difficulty button{margin:0 10px;padding:12px 30px;border-radius:25px;border:none;cursor:pointer;background:linear-gradient(to right,#00e676,#00c6ff);color:white;font-weight:bold;box-shadow:0 5px 15px rgba(0,0,0,0.4);transition:0.3s;}
+.difficulty button:hover{transform:scale(1.05);}
+.tick{font-size:24px;color:#ffeb3b;margin-left:10px;display:inline-block;}
+.categories{display:flex;justify-content:center;gap:15px;margin-top:20px;}
+.category{background:rgba(255,255,255,0.1);padding:20px;border-radius:20px;position:relative;box-shadow:0 5px 25px rgba(0,0,0,0.5);transition:0.3s;}
+.category:hover{transform:scale(1.05);}
+.category h4{margin:10px 0;font-size:20px;}
+.overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);display:flex;justify-content:center;align-items:center;z-index:999;}
+.quizContainer{background:white;color:black;width:95%;max-width:900px;border-radius:25px;padding:30px;text-align:center;box-shadow:0 0 40px rgba(0,0,0,0.5);animation:pop 0.3s ease-out;}
+.quizContainer.fullscreen{width:100%;height:100%;border-radius:0;display:flex;flex-direction:column;justify-content:center;}
+.quizContainer.kahoot h3{font-size:32px;margin:25px;}
+.quizContainer.kahoot #answers button{display:block;width:80%;margin:15px auto;padding:25px;border-radius:15px;font-size:22px;background:#0072ff;color:white;font-weight:bold;transition:0.3s;position:relative;box-shadow:0 4px 15px rgba(0,0,0,0.4);}
+.quizContainer.kahoot #answers button:hover{transform:scale(1.05);background:#00e676;}
+.answerMark{position:absolute;font-size:24px;top:5px;right:15px;transition:opacity 0.5s ease;}
+.quizContainer.aboutOverlaySize{width:90%;height:90%;}
+.largeModal{max-width:95%;max-height:95%;padding:30px;}
+@keyframes pop{from{transform:scale(0.7);opacity:0;}to{transform:scale(1);opacity:1;}}
+.quizHeader{display:flex;justify-content:space-between;align-items:center;}
+.quizHeader .close{cursor:pointer;font-size:28px;}
+.progressBar{width:90%;height:18px;background:#ddd;margin:15px auto;border-radius:15px;}
+#progress{height:100%;width:0%;background:linear-gradient(to right,#00e676,#00c6ff);border-radius:15px;transition:0.3s;}
+.hidden{display:none;}

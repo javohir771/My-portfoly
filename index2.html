@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<title>Javohir Portfolio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+/* ===== RESET ===== */
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
+body{background:#0b0f1a;color:#fff;overflow-x:hidden;transition:0.3s;}
+
+/* ===== DARK/LIGHT ===== */
+body.light{background:#f5f5f5;color:#111;}
+body.light nav{background:rgba(255,255,255,0.9);color:#0b0f1a;}
+body.light .btn{color:#111;}
+
+/* ===== CURSOR ===== */
+.cursor{position:fixed;width:20px;height:20px;border-radius:50%;background:rgba(0,255,255,0.6);pointer-events:none;transform:translate(-50%,-50%);box-shadow:0 0 30px cyan;z-index:9999;}
+
+/* ===== NAVBAR ===== */
+nav{position:fixed;top:0;width:100%;padding:15px 50px;display:flex;justify-content:space-between;align-items:center;background:rgba(0,0,0,0.6);backdrop-filter:blur(10px);z-index:1000;transition:0.3s;}
+nav h1{font-size:26px;color:cyan;letter-spacing:2px;cursor:pointer;}
+nav ul{display:flex;gap:25px;}
+nav ul li{list-style:none;}
+nav ul li a{text-decoration:none;color:white;font-weight:500;position:relative;}
+nav ul li a::after{content:"";position:absolute;left:0;bottom:-5px;width:0;height:2px;background:cyan;transition:.4s;}
+nav ul li a:hover::after{width:100%;}
+
+/* ===== TOGGLE BUTTON ===== */
+#themeToggle{padding:5px 15px;border:none;border-radius:15px;background:cyan;color:#000;font-weight:bold;cursor:pointer;transition:.3s;}
+#themeToggle:hover{background:magenta;color:#fff;}
+
+/* ===== SECTIONS ===== */
+section{min-height:100vh;padding:120px 80px;transition:0.3s;}
+.home{text-align:center;display:flex;flex-direction:column;justify-content:center;align-items:center;}
+.home h2{font-size:55px;background:linear-gradient(90deg,cyan,magenta);background-clip:text;color:transparent;}
+.home p{margin-top:20px;font-size:18px;max-width:700px;opacity:.8;}
+.btn{margin-top:40px;padding:15px 40px;border:none;background:linear-gradient(90deg,cyan,magenta);color:black;font-size:16px;font-weight:bold;border-radius:30px;cursor:pointer;box-shadow:0 0 30px cyan;transition:.3s;}
+.btn:hover{transform:scale(1.1);box-shadow:0 0 60px magenta;}
+
+/* ===== ABOUT ===== */
+.about{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center;}
+.about img{width:100%;border-radius:20px;box-shadow:0 0 50px cyan;}
+.about h3{font-size:35px;margin-bottom:20px;}
+
+/* ===== SKILLS ===== */
+.skills{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:30px;}
+.skill{padding:30px;background:rgba(255,255,255,0.05);border-radius:20px;backdrop-filter:blur(10px);box-shadow:0 0 30px rgba(0,255,255,0.2);transition:.4s;}
+.skill:hover{transform:translateY(-10px) scale(1.05);box-shadow:0 0 60px cyan;}
+.skill h4{margin-bottom:10px;color:cyan;}
+
+/* ===== PROJECTS ===== */
+.projects{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px;}
+.project{position:relative;overflow:hidden;border-radius:20px;cursor:pointer;}
+.project img{width:100%;height:200px;object-fit:cover;}
+.project .overlay{position:absolute;inset:0;background:rgba(0,0,0,0.7);display:flex;flex-direction:column;justify-content:center;align-items:center;opacity:0;transition:.4s;}
+.project:hover .overlay{opacity:1;}
+
+/* ===== MODAL ===== */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,0.9);display:flex;justify-content:center;align-items:center;z-index:2000;display:none;transition:.3s;}
+.modal-content{background:#111;padding:40px;border-radius:20px;max-width:600px;text-align:center;box-shadow:0 0 50px cyan;}
+.close{margin-top:30px;cursor:pointer;}
+</style>
+</head>
+<body>
+
+<div class="cursor"></div>
+
+<nav>
+  <h1>Javohir Portfolio</h1>
+  <ul>
+    <li><a href="#home">Home</a></li>
+    <li><a href="#about">About Me</a></li>
+    <li><a href="#skills">My Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+  </ul>
+  <button id="themeToggle">Dark/Light</button>
+</nav>
+
+<!-- WELCOME MODAL -->
+<div class="modal" id="welcomeModal">
+  <div class="modal-content">
+    <h2>Xush kelibsiz!</h2>
+    <p>Javohir Portfolio saytiga hush kelibsiz!</p>
+  </div>
+</div>
+
+<section class="home" id="home">
+  <h2>Creative Frontend Developer</h2>
+  <p>Men zamonaviy, animatsiyali va kuchli web loyihalar yarataman.</p>
+</section>
+
+<section class="about" id="about">
+  <img src="download.png">
+  <div>
+    <h3>Men haqimda</h3>
+    <p>
+      men Qurbonov Javohir 15 yoshdaman Xorazm viloyati xiva shahar 9-son maktaba oqiyman va men dasturlash tiliga qiziqaman va IT sohasida oqiyabman <br> men IT da 1.5 yil odim va hozir ham oqiyabman. <br> meni kelajakdagi orzuyim buyuk hamma tanidigan dasturchi bolish va bu maqsadga erishish uchun  harakat qilyabman 
+      murojat uchun: 95-536-11-20
+    </p>
+  </div>
+</section>
+
+<section id="skills">
+  <h2>My Skills</h2><br><br>
+  <div class="skills">
+    <div class="skill"><h4>HTML5</h4><p>Semantic, SEO</p></div>
+    <div class="skill"><h4>CSS3</h4><p>Animation, Flex, Grid</p></div>
+    <div class="skill"><h4>JavaScript</h4><p>Logic, DOM, Events</p></div>
+    <div class="skill"><h4>UI/UX</h4><p>Modern design</p></div>
+  </div>
+</section>
+
+<section id="projects">
+  <h2>Projects</h2><br><br>
+  <div class="projects">
+    <!-- Project 1 -->
+    <div class="project" onclick="window.open('index.html','_blank')">
+      <img src="https://picsum.photos/500/300?1" alt="Project 1">
+      <div class="overlay"><h3>English Learning App</h3></div>
+    </div>
+    <!-- Project 2 -->
+    <div class="project" onclick="window.open('index10.html','_blank')">
+      <img src="https://picsum.photos/500/300?2" alt="Project 2">
+      <div class="overlay"><h3>Interactive Dashboard</h3></div>
+    </div>
+    <!-- Project 3 -->
+    <div class="project" onclick="window.open('index3.html','_blank')">
+      <img src="https://picsum.photos/500/300?3" alt="Project 3">
+      <div class="overlay"><h3>Creative Portfolio Design</h3></div>
+    </div>
+  </div>
+</section>
+
+<footer style="text-align: center; font-size: bold; padding: 10px;">
+  © 2026 Javohir Portfolio
+</footer>
+
+<script>
+/* CURSOR */
+const cursor1 =document.querySelector('.cursor');
+document.addEventListener('mousemove',e=>{
+  cursor1.style.left=e.clientX+'px';
+  cursor1.style.top=e.clientY+'px';
+});
+
+/* WELCOME MODAL */
+const welcomeModal=document.getElementById('welcomeModal');
+welcomeModal.style.display='flex';
+setTimeout(()=>{welcomeModal.style.display='none';},4000);
+
+/* DARK/LIGHT TOGGLE */
+const themeBtn=document.getElementById('themeToggle');
+themeBtn.addEventListener('click',()=>{
+  document.body.classList.toggle('light');
+});
+</script>
+
+</body>
+</html>
+
+<footer>
+  
+</footer>
+
+<script>
+/* ===== CURSOR ===== */
+const cursor=document.querySelector('.cursor');
+document.addEventListener('mousemove',e=>{
+  cursor.style.left=e.clientX+'px';
+  cursor.style.top=e.clientY+'px';
+});
+
+/* ===== WELCOME MODAL ===== */
+const welcomeModal=document.getElementById('welcomeModal');
+setTimeout(()=>{welcomeModal.style.display='none';},4000);
+
+/* ===== DARK/LIGHT ===== */
+const toggleTheme=document.getElementById('toggleTheme');
+toggleTheme.addEventListener('click',()=>{
+  document.body.classList.toggle('light');
+});
+
+/* ===== SCROLL TO PROJECTS ===== */
+function scrollToProjects(){
+  document.getElementById('projects').scrollIntoView({behavior:'smooth'});
+}
+
+/* ===== PROJECT MODAL ===== */
+function openModalProject(title,desc){
+  document.getElementById('projectTitle').textContent=title;
+  document.getElementById('projectDesc').textContent=desc;
+  document.getElementById('projectModal').style.display='flex';
+}
+function closeProjectModal(){
+  document.getElementById('projectModal').style.display='none';
+}
+</script>
+</body>
+</html>
